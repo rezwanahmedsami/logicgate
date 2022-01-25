@@ -98,11 +98,16 @@ void logicgate::validate_Gate_Command()
         }
         
     }else{
-        if (logicgate::InputA == 1 || logicgate::InputA == 0)
-        {
-            if(logicgate::CompareCommand("3")){
-                logicgate::DISPLAY_NOT_GATE_ANSWER();
-            }
+
+
+        if(logicgate::CompareCommand("3")){
+                if (logicgate::InputA == 1 || logicgate::InputA == 0)
+                {
+                    logicgate::DISPLAY_NOT_GATE_ANSWER();
+                }else{
+                    cout<<"Invalid. Only 1 and 0 is acceptable. "<<endl;
+                    logicgate::GetGateInput_1();
+                }
         }else{
             cout<<"Invalid. Only 1 and 0 is acceptable. "<<endl;
             logicgate::GetGateInput_2();
