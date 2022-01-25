@@ -30,6 +30,11 @@ class logicgate
         // NOT Gate
         int __RENDER_NOT_GATE_ANSWER();
         void DISPLAY_NOT_GATE_ANSWER();
+
+        // NAND Gate
+        int __RENDER_NAND_GATE_ANSWER();
+        void DISPLAY_NAND_GATE_ANSWER();
+
         // os based methods
         bool CheckOs(string OS);
 
@@ -61,11 +66,12 @@ void logicgate::Init_Template()
     string options[] = {
         "1. OR Gate.",
         "2. AND Gate.",
-        "3. NOT Gate."
+        "3. NOT Gate.",
+        "4. NAND Gate."
         };
     cout<<endl;
     cout<<"Choose a option, which you want to test"<<endl;
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < 4; i++)
     {
         cout<<endl;
         cout<<options[i]<<endl;
@@ -95,6 +101,8 @@ void logicgate::validate_Gate_Command()
             logicgate::DISPLAY_OR_GATE_ANSWER();
         }else if(logicgate::CompareCommand("2")){
             logicgate::DISPLAY_AND_GATE_ANSWER();
+        }else if(logicgate::CompareCommand("4")){
+            logicgate::DISPLAY_NAND_GATE_ANSWER();
         }
         
     }else{
@@ -151,6 +159,11 @@ int logicgate::__RENDER_NOT_GATE_ANSWER(){
     }
 }
 
+int logicgate::__RENDER_NAND_GATE_ANSWER(){
+    logicgate::InputA = logicgate::__RENDER_OR_GATE_ANSWER();
+    return logicgate::__RENDER_NOT_GATE_ANSWER();
+}
+
 
 
 void logicgate::DISPLAY_OR_GATE_ANSWER(){
@@ -166,6 +179,11 @@ void logicgate::DISPLAY_AND_GATE_ANSWER(){
 void logicgate::DISPLAY_NOT_GATE_ANSWER(){
     cout<<endl;
     cout<<"YOUR NOT GATE OUTPUT IS: "<<logicgate::__RENDER_NOT_GATE_ANSWER()<<endl;
+}
+
+void logicgate::DISPLAY_NAND_GATE_ANSWER(){
+    cout<<endl;
+    cout<<"YOUR NAND GATE OUTPUT IS: "<<logicgate::__RENDER_NAND_GATE_ANSWER()<<endl;
 }
 
 void logicgate::GetGateInput_1(){
@@ -218,7 +236,7 @@ void logicgate::parseCommand()
     }else if(logicgate::CompareCommand("clear")){
         logicgate::ClearTerminal();
 
-    }else if(logicgate::CompareCommand("1") || logicgate::CompareCommand("2") ||  logicgate::CompareCommand("3")){
+    }else if(logicgate::CompareCommand("1") || logicgate::CompareCommand("2") ||  logicgate::CompareCommand("3") ||  logicgate::CompareCommand("4")){
         logicgate::__INIT_GATE();
     
     }else{
