@@ -9,7 +9,8 @@ class logicgate
     private:
         int InputA, InputB;
         void Init_Template();
-        void GetGateInputCommand();
+        void GetGateInput_1();
+        void GetGateInput_2();
         void validate_Gate_Command();
         bool MatchString(string str1, string str2);
         bool CompareCommand(string cmd);
@@ -17,11 +18,18 @@ class logicgate
         void parseCommand();
         void ClearTerminal();
 
-        // or gate
-        void __INIT_OR_GATE();
+        void __INIT_GATE();
+        // OR gate
         int __RENDER_OR_GATE_ANSWER();
         void DISPLAY_OR_GATE_ANSWER();
 
+        // AND Gate
+        int __RENDER_AND_GATE_ANSWER();
+        void DISPLAY_AND_GATE_ANSWER();
+
+        // NOT Gate
+        int __RENDER_NOT_GATE_ANSWER();
+        void DISPLAY_NOT_GATE_ANSWER();
         // os based methods
         bool CheckOs(string OS);
 
@@ -82,10 +90,23 @@ bool logicgate::CompareCommand(string cmd)
 void logicgate::validate_Gate_Command()
 {
     if((logicgate::InputA == 0 || logicgate::InputA == 1) && (logicgate::InputB == 0 || logicgate::InputB == 1)){
-        logicgate::DISPLAY_OR_GATE_ANSWER();
+        if (logicgate::CompareCommand("1"))
+        {
+            logicgate::DISPLAY_OR_GATE_ANSWER();
+        }else if(logicgate::CompareCommand("2")){
+            logicgate::DISPLAY_AND_GATE_ANSWER();
+        }
+        
     }else{
-        cout<<"Input A and Input B is Invalid. Only 1 and 0 is acceptable. "<<endl;
-        logicgate::GetGateInputCommand();
+        if (logicgate::InputA == 1 || logicgate::InputA == 0)
+        {
+            if(logicgate::CompareCommand("3")){
+                logicgate::DISPLAY_NOT_GATE_ANSWER();
+            }
+        }else{
+            cout<<"Invalid. Only 1 and 0 is acceptable. "<<endl;
+            logicgate::GetGateInput_2();
+        }
     }
 };
 
@@ -102,12 +123,53 @@ int logicgate::__RENDER_OR_GATE_ANSWER(){
     
 }
 
+int logicgate::__RENDER_AND_GATE_ANSWER(){
+    if((InputA == 0 && InputB == 0) || (InputA == 1 && InputB == 0) || (InputA == 0 && InputB == 1))
+    {
+        return 0;
+    }else if(InputA == 1 && InputB == 1){
+        return 1;
+    }else{
+        cout<<"Unexpected error"<<endl;
+        exit(0);
+    }
+}
+
+int logicgate::__RENDER_NOT_GATE_ANSWER(){
+    if(InputA == 1){
+        return 0;
+    }else if(InputA == 0){
+        return 1;
+    }else{
+        cout<<"Unexpected error"<<endl;
+        exit(0);
+    }
+}
+
+
+
 void logicgate::DISPLAY_OR_GATE_ANSWER(){
     cout<<endl;
     cout<<"YOUR OR GATE OUTPUT IS: "<<logicgate::__RENDER_OR_GATE_ANSWER()<<endl;
 }
 
-void logicgate::GetGateInputCommand()
+void logicgate::DISPLAY_AND_GATE_ANSWER(){
+    cout<<endl;
+    cout<<"YOUR AND GATE OUTPUT IS: "<<logicgate::__RENDER_AND_GATE_ANSWER()<<endl;
+}
+
+void logicgate::DISPLAY_NOT_GATE_ANSWER(){
+    cout<<endl;
+    cout<<"YOUR NOT GATE OUTPUT IS: "<<logicgate::__RENDER_NOT_GATE_ANSWER()<<endl;
+}
+
+void logicgate::GetGateInput_1(){
+    cout<<"Input A: ";
+    cin>>logicgate::InputA;
+    logicgate::validate_Gate_Command();
+}
+
+void logicgate::GetGateInput_2()
 {
 
     cout<<"Input A: ";
@@ -130,9 +192,13 @@ void logicgate::ClearTerminal()
 };
 
 
-void logicgate::__INIT_OR_GATE()
+void logicgate::__INIT_GATE()
 {
-    logicgate::GetGateInputCommand();
+    if(logicgate::CompareCommand("3")){
+        logicgate::GetGateInput_1();
+    }else{
+        logicgate::GetGateInput_2();
+    }
 }
 
 void logicgate::parseCommand()
@@ -147,9 +213,9 @@ void logicgate::parseCommand()
     }else if(logicgate::CompareCommand("clear")){
         logicgate::ClearTerminal();
 
-    }else if(logicgate::CompareCommand("1")){
-        logicgate::__INIT_OR_GATE();
-
+    }else if(logicgate::CompareCommand("1") || logicgate::CompareCommand("2") ||  logicgate::CompareCommand("3")){
+        logicgate::__INIT_GATE();
+    
     }else{
         cout<<"`"<<command<<"`"<<" Command Not found"<<endl;
     }
