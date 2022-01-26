@@ -7,6 +7,7 @@ class logicgate
 {
     string command;
     private:
+        enum { OFF, ON};
         int InputA, InputB;
         void Init_Template();
         void GetGateInput_1();
@@ -95,7 +96,7 @@ bool logicgate::CompareCommand(string cmd)
 
 void logicgate::validate_Gate_Command()
 {
-    if((logicgate::InputA == 0 || logicgate::InputA == 1) && (logicgate::InputB == 0 || logicgate::InputB == 1)){
+    if((logicgate::InputA == logicgate::OFF || logicgate::InputA == logicgate::ON) && (logicgate::InputB == logicgate::OFF || logicgate::InputB == logicgate::ON)){
         if (logicgate::CompareCommand("1"))
         {
             logicgate::DISPLAY_OR_GATE_ANSWER();
@@ -109,7 +110,7 @@ void logicgate::validate_Gate_Command()
 
 
         if(logicgate::CompareCommand("3")){
-                if (logicgate::InputA == 1 || logicgate::InputA == 0)
+                if (logicgate::InputA == logicgate::ON || logicgate::InputA == logicgate::OFF)
                 {
                     logicgate::DISPLAY_NOT_GATE_ANSWER();
                 }else{
@@ -124,11 +125,11 @@ void logicgate::validate_Gate_Command()
 };
 
 int logicgate::__RENDER_OR_GATE_ANSWER(){
-    if ((InputA == 0 && InputB == 1) || (InputA == 1 && InputB == 0) || (InputA == 1 && InputB == 1))
+    if ((InputA == logicgate::OFF && InputB == logicgate::ON) || (InputA == logicgate::ON && InputB == logicgate::OFF) || (InputA == logicgate::ON && InputB == logicgate::ON))
     {
-        return 1;
-    }else if(InputA == 0 && InputB == 0){
-        return 0;
+        return logicgate::ON;
+    }else if(InputA == logicgate::OFF && InputB == logicgate::OFF){
+        return logicgate::OFF;
     }else{
         cout<<"Unexpected error"<<endl;
         exit(0);
@@ -137,11 +138,11 @@ int logicgate::__RENDER_OR_GATE_ANSWER(){
 }
 
 int logicgate::__RENDER_AND_GATE_ANSWER(){
-    if((InputA == 0 && InputB == 0) || (InputA == 1 && InputB == 0) || (InputA == 0 && InputB == 1))
+    if((InputA == logicgate::OFF && InputB == logicgate::OFF) || (InputA == logicgate::ON && InputB == logicgate::OFF) || (InputA == logicgate::OFF && InputB == logicgate::ON))
     {
-        return 0;
-    }else if(InputA == 1 && InputB == 1){
-        return 1;
+        return logicgate::OFF;
+    }else if(InputA == logicgate::ON && InputB == logicgate::ON){
+        return logicgate::ON;
     }else{
         cout<<"Unexpected error"<<endl;
         exit(0);
@@ -149,10 +150,10 @@ int logicgate::__RENDER_AND_GATE_ANSWER(){
 }
 
 int logicgate::__RENDER_NOT_GATE_ANSWER(){
-    if(InputA == 1){
-        return 0;
-    }else if(InputA == 0){
-        return 1;
+    if(InputA == logicgate::ON){
+        return logicgate::OFF;
+    }else if(InputA == logicgate::OFF){
+        return logicgate::ON;
     }else{
         cout<<"Unexpected error"<<endl;
         exit(0);
