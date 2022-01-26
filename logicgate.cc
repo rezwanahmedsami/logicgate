@@ -160,7 +160,7 @@ int logicgate::__RENDER_NOT_GATE_ANSWER(){
 }
 
 int logicgate::__RENDER_NAND_GATE_ANSWER(){
-    logicgate::InputA = logicgate::__RENDER_OR_GATE_ANSWER();
+    logicgate::InputA = logicgate::__RENDER_AND_GATE_ANSWER();
     return logicgate::__RENDER_NOT_GATE_ANSWER();
 }
 
